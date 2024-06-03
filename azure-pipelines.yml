@@ -42,5 +42,6 @@ stages:
   - job: Cleanup
     steps:
     - script: |
-        cleanWs
+        echo "Cleaning up workspace"
+        rm -rf *
       displayName: 'Clean up workspace'
