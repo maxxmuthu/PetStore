@@ -9,16 +9,19 @@ variables:
   TEST_RAIL_PASSWORD: ''
   JIRA_USERNAME: ''
   JIRA_API_TOKEN: ''
+  java.version: '16'  # Define the Java version to use
 
 stages:
 - stage: BuildAndTest
   jobs:
   - job: BuildAndTest
     steps:
-    - task: UseJavaVersion@1
-      inputs:
-        versionSpec: '11'  # Specify the Java version to use, adjust as needed
-        jdkArchitectureOption: 'x64'  # Specify the JDK architecture
+    - script: |
+        sudo apt-get update
+        sudo apt-get install -y openjdk-$(java.version)-jdk
+        echo "Java version:"
+        java -version
+      displayName: 'Set up Java'
 
     - script: |
         mvn clean compile
