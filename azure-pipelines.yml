@@ -29,10 +29,13 @@ stages:
       displayName: 'Build and Test'
 
     - script: |
-        echo "##vso[task.setvariable variable=JIRA_USERNAME;issecret=false;isOutput=true]$(JIRA_USERNAME)"
-        echo "##vso[task.setvariable variable=JIRA_API_TOKEN;issecret=true;isOutput=true]$(JIRA_API_TOKEN)"
+        echo "Setting up TestRail credentials"
         echo "##vso[task.setvariable variable=TEST_RAIL_USERNAME;issecret=false;isOutput=true]$(TEST_RAIL_USERNAME)"
         echo "##vso[task.setvariable variable=TEST_RAIL_PASSWORD;issecret=true;isOutput=true]$(TEST_RAIL_PASSWORD)"
+
+        echo "Setting up JIRA credentials"
+        echo "##vso[task.setvariable variable=JIRA_USERNAME;issecret=false;isOutput=true]$(JIRA_USERNAME)"
+        echo "##vso[task.setvariable variable=JIRA_API_TOKEN;issecret=true;isOutput=true]$(JIRA_API_TOKEN)"
       displayName: 'Set pipeline variables'
 
     - task: PublishBuildArtifacts@1
