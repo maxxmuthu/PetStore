@@ -11,18 +11,11 @@ variables:
   JIRA_API_TOKEN: ''
 
 stages:
-- stage: Checkout
-  jobs:
-  - job: Checkout
-    steps:
-    - checkout: self
-    - checkout: git://github.com/maxxmuthu/PetStore@main  # Replace with your actual GitHub repository URL
-
 - stage: BuildAndTest
   jobs:
   - job: BuildAndTest
     steps:
-    - task: JavaToolInstaller@0
+    - task: UseJavaVersion@1
       inputs:
         versionSpec: '11'  # Specify the Java version to use, adjust as needed
         jdkArchitectureOption: 'x64'  # Specify the JDK architecture
