@@ -22,26 +22,15 @@ stages:
   jobs:
   - job: BuildAndTest
     steps:
-    - task: UseJavaVersion@1
+    - task: JavaToolInstaller@0
       inputs:
         versionSpec: '11'  # Specify the Java version to use, adjust as needed
+        jdkArchitectureOption: 'x64'  # Specify the JDK architecture
 
     - script: |
         mvn clean compile
         mvn test -Dsurefire.suiteXmlFiles=testng.xml
       displayName: 'Build and Test'
-
-    - task: PublishHTML@1
-      inputs:
-        htmlReportName: 'Extent Reports'
-        reportDirectory: 'test-output'
-        reportFiles: 'extent-report.html'
-        failIfNoFiles: false
-        publishMode: 'inline'
-
-    - task: MavenAuthenticate@0
-      inputs:
-        artifactsFeeds: 'jira-credentials, testrail-credentials'  # Use the service connections
 
     - script: |
         echo "##vso[task.setvariable variable=JIRA_USERNAME;issecret=false;isOutput=true]$(JIRA_USERNAME)"
@@ -49,6 +38,12 @@ stages:
         echo "##vso[task.setvariable variable=TEST_RAIL_USERNAME;issecret=false;isOutput=true]$(TEST_RAIL_USERNAME)"
         echo "##vso[task.setvariable variable=TEST_RAIL_PASSWORD;issecret=true;isOutput=true]$(TEST_RAIL_PASSWORD)"
       displayName: 'Set pipeline variables'
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        pathtoPublish: 'test-output'
+        artifactName: 'Extent Reports'
+        publishLocation: 'Container'
 
 - stage: Cleanup
   jobs:
