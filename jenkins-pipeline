@@ -1,0 +1,55 @@
+pipeline {
+    agent any
+
+    tools {
+        maven 'Maven 3.9.1'
+    }
+
+    environment {
+        TEST_RAIL_USERNAME = ''
+        TEST_RAIL_PASSWORD = ''
+        JIRA_USERNAME = ''
+        JIRA_API_TOKEN = ''
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/maxxmuthu/PetStore'
+            }
+        }
+
+        stage('Build and Test') {
+            steps {
+                // Load credentials
+                withCredentials([
+                    usernamePassword(credentialsId: 'testrail-credentials', usernameVariable: 'TEST_RAIL_USERNAME', passwordVariable: 'TEST_RAIL_PASSWORD'),
+                    usernamePassword(credentialsId: 'jira-credentials', usernameVariable: 'JIRA_USERNAME', passwordVariable: 'JIRA_API_TOKEN')
+                ]) {
+                    // Now you can use these environment variables in your build steps
+                    bat 'mvn clean compile'
+                    bat 'mvn test -Dsurefire.suiteXmlFiles=testng.xml'
+                }
+            }
+            post {
+                always {
+                    // Publish Extent Reports
+                    publishHTML(target: [
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: false,
+                        keepAll: true,
+                        reportDir: 'test-output',
+                        reportFiles: 'extent-report.html',
+                        reportName: 'Extent Reports'
+                    ])
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}
