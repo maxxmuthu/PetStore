@@ -16,7 +16,7 @@ stages:
   - job: Checkout
     steps:
     - checkout: self
-    - checkout: git://maxxmuthu/PetStore@main  # Replace with your actual GitHub repository URL
+    - checkout: git://github.com/maxxmuthu/PetStore@main  # Replace with your actual GitHub repository URL
 
 - stage: BuildAndTest
   jobs:
