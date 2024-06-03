@@ -43,5 +43,6 @@ stages:
     steps:
     - script: |
         echo "Cleaning up workspace"
-        rm -rf *
+          # You can include additional cleanup steps here if needed
+          # rm -rf *
       displayName: 'Clean up workspace'
