@@ -26,12 +26,8 @@ stages:
         echo "Java version:"
         java -version
 
-        # Run tests and generate Extent Reports
         mvn clean compile
         mvn test -Dsurefire.suiteXmlFiles=testng.xml
-
-        # Generate Extent Reports
-        mvn exec:java -Dexec.mainClass="api.utilities.ExtentManager"
 
       displayName: 'Build and Test'
 
@@ -41,18 +37,12 @@ stages:
         artifactName: 'Extent Reports'
         publishLocation: 'Container'
 
-    - task: PublishPipelineArtifact@1
-      inputs:
-        artifactName: 'Extent Reports'
-        targetPath: 'test-output'
-
 - stage: Cleanup
   jobs:
   - job: Cleanup
     steps:
     - script: |
         echo "Cleaning up workspace"
-        # You can include additional cleanup steps here if needed
-        # rm -rf *
-
+          # You can include additional cleanup steps here if needed
+          # rm -rf *
       displayName: 'Clean up workspace'
