@@ -1,15 +1,13 @@
 trigger:
-- main  # Define the branch to trigger on, e.g., 'main', 'master'
+- main
 
 pool:
-  vmImage: 'ubuntu-latest'  # Choose an appropriate VM image
+  vmImage: 'ubuntu-latest'
 
 variables:
-  TEST_RAIL_USERNAME: ''
-  TEST_RAIL_PASSWORD: ''
-  JIRA_USERNAME: ''
-  JIRA_API_TOKEN: ''
-  java.version: '16'  # Define the Java version to use
+  - group: JIRATestRail
+  - name: java.version
+    value: '16'
 
 stages:
 - stage: BuildAndTest
@@ -17,26 +15,21 @@ stages:
   - job: BuildAndTest
     steps:
     - script: |
-        sudo apt-get update
-        sudo apt-get install -y openjdk-$(java.version)-jdk
+        echo "Setting up JIRA credentials"
+        echo "##vso[task.setvariable variable=JIRA_USERNAME]$(JIRA_USERNAME)"
+        echo "##vso[task.setvariable variable=JIRA_API_TOKEN]$(JIRA_API_TOKEN)"
+
+        echo "Setting up TestRail credentials"
+        echo "##vso[task.setvariable variable=TEST_RAIL_USERNAME]$(TEST_RAIL_USERNAME)"
+        echo "##vso[task.setvariable variable=TEST_RAIL_PASSWORD]$(TEST_RAIL_PASSWORD)"
+
         echo "Java version:"
         java -version
-      displayName: 'Set up Java'
 
-    - script: |
         mvn clean compile
         mvn test -Dsurefire.suiteXmlFiles=testng.xml
+
       displayName: 'Build and Test'
-
-    - script: |
-        echo "Setting up TestRail credentials"
-        echo "##vso[task.setvariable variable=TEST_RAIL_USERNAME;issecret=false;isOutput=true]$(TEST_RAIL_USERNAME)"
-        echo "##vso[task.setvariable variable=TEST_RAIL_PASSWORD;issecret=true;isOutput=true]$(TEST_RAIL_PASSWORD)"
-
-        echo "Setting up JIRA credentials"
-        echo "##vso[task.setvariable variable=JIRA_USERNAME;issecret=false;isOutput=true]$(JIRA_USERNAME)"
-        echo "##vso[task.setvariable variable=JIRA_API_TOKEN;issecret=true;isOutput=true]$(JIRA_API_TOKEN)"
-      displayName: 'Set pipeline variables'
 
     - task: PublishBuildArtifacts@1
       inputs:
