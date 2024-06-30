@@ -23,13 +23,16 @@ The repository contains the following key directories and files:
 - **testng.xml**: TestNG suite configuration file for defining test suites, groups, and parameters.
 
 ### src/test/java
-#### api.endpoints
+## api.endpoints
+
 - **Routes**: Maintains all the base class URLs. This class centralizes the management of endpoints, making it easy to update and maintain the API endpoints across different environments.
 
 #### api.payload
+
 - Contains POJO (Plain Old Java Object) classes with getter and setter methods for each API. These classes represent the structure of the JSON payloads used in the API requests and responses.
 
-#### api.utility
+## api.utility
+
 - **ExcelReader**: Utility class for reading data from Excel files.
 - **ExtentManager**: Manages the ExtentReports configuration and report generation.
 - **Log**: Utility class for logging detailed execution information using Log4j2.
@@ -38,7 +41,7 @@ The repository contains the following key directories and files:
 - **JiraIssueCreator**: Automates the creation of JIRA issues for failed test cases. It connects to JIRA using the provided credentials, creates a new issue with the relevant details, and logs the issue ID.
 - **TestNGListener**: Implements TestNG listeners for updating test statuses in TestRail and logging test execution details.
 
-#### api.test
+## api.test
 - Contains all the scenario class files. These classes define the various test scenarios, each targeting specific functionalities of the Pet Store API. They use the endpoints defined in `api.endpoints.Routes` and the payloads in `api.payload` to send requests and validate responses.
 
 ## Prerequisites
@@ -62,15 +65,15 @@ Running Tests Execute the following command to run the tests:
 mvn test
 
 ## Continuous Integration
-## Azure Pipelines: The azure-pipeline.yaml file contains the necessary configuration for setting up a CI/CD pipeline in Azure DevOps.
+ Azure Pipelines: The azure-pipeline.yaml file contains the necessary configuration for setting up a CI/CD pipeline in Azure DevOps.
 
-## Jenkins: Use the jenkins-pipeline.txt file to configure your Jenkins pipeline for continuous integration and deployment.
+ Jenkins: Use the jenkins-pipeline.txt file to configure your Jenkins pipeline for continuous integration and deployment.
 
-## Docker: To start the services using Docker Compose: docker-compose up
+ Docker: To start the services using Docker Compose: docker-compose up
 
-## Logging Logs are configured using Log4j2 and stored in the Logs directory. The log4j2.xml file defines the logging levels and appenders.
+ Logging Logs are configured using Log4j2 and stored in the Logs directory. The log4j2.xml file defines the logging levels and appenders.
 
-## Test Data Test data is stored in the TestData directory and can be accessed using the ExcelReader utility class.
+ Test Data Test data is stored in the TestData directory and can be accessed using the ExcelReader utility class.
 
 ## Integration with TestRail and JIRA TestRail: The project includes classes (APIClient, APIException, TestRailManager) for integrating with TestRail. These classes help in updating the test case results in TestRail automatically after the test execution. JIRA: The JiraIssueCreator class automates the creation of JIRA issues for any test case failures, enabling seamless defect tracking.
 
