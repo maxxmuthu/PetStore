@@ -22,7 +22,6 @@ The repository contains the following key directories and files:
 - **pom.xml**: Maven Project Object Model file for managing dependencies and build configurations.
 - **testng.xml**: TestNG suite configuration file for defining test suites, groups, and parameters.
 
-### src/test/java
 ## api.endpoints
 
 - **Routes**: Maintains all the base class URLs. This class centralizes the management of endpoints, making it easy to update and maintain the API endpoints across different environments.
@@ -75,25 +74,34 @@ mvn test
 
  Test Data Test data is stored in the TestData directory and can be accessed using the ExcelReader utility class.
 
-## Integration with TestRail and JIRA TestRail: The project includes classes (APIClient, APIException, TestRailManager) for integrating with TestRail. These classes help in updating the test case results in TestRail automatically after the test execution. JIRA: The JiraIssueCreator class automates the creation of JIRA issues for any test case failures, enabling seamless defect tracking.
+## Integration with TestRail and JIRA TestRail: 
+
+The project includes classes (APIClient, APIException, TestRailManager) for integrating with TestRail. 
+These classes help in updating the test case results in TestRail automatically after the test execution. JIRA: The JiraIssueCreator class automates the creation of JIRA issues for any test case failures, enabling seamless defect tracking.
 
 ## Detailed Explanation of Key Components
 api.endpoints.Routes
+
 The Routes class centralizes the management of API endpoints, making it easy to update and maintain the base URLs and paths across different environments. This class helps in maintaining clean and manageable code by avoiding hardcoding URLs in multiple places.
 
 api.utility.Utils
+
 The Utils class contains various custom utility functions, such as methods for extracting values from JSON responses, reading configuration files, and other common tasks. These utility methods help in reducing code duplication and improving code readability.
 
 api.utility.ExtentManager
+
 The ExtentManager class is responsible for configuring and managing the ExtentReports. It provides methods to initialize the report, create test nodes, and log the test execution details.
 
 api.utility.TestRail Integration
+
 The APIClient, APIException, and TestRailManager classes are designed for integrating with TestRail. They provide methods to connect to TestRail, update test results, and manage test runs. This integration helps in keeping track of the test case execution status in TestRail.
 
 api.utility.JiraIssueCreator
+
 The JiraIssueCreator class automates the process of raising defects in JIRA for any test case failures. It connects to JIRA using the provided credentials, creates a new issue with the relevant details, and logs the issue ID. This ensures that all failed test cases are properly tracked and assigned for resolution.
 
 src/test/java
+
 This directory contains all the test scenarios, organized in a way that makes it easy to add, modify, and manage tests. Each test class is designed to validate specific functionality of the Pet Store API, ensuring comprehensive test coverage.
 
 Contributing
